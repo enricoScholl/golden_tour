@@ -12,12 +12,13 @@ import org.springframework.stereotype.Repository;
 
 import it.golden_tour.entities.PrenotazioneVo;
 import it.golden_tour.services.DatabaseService;
+import it.golden_tour.services.JDBCService;
 
 @Repository(value = "prenotazioniRepository")
 public class PrenotazioneRepositoryImpl implements PrenotazioneRepository{
 	
 	@Autowired(required=true)
-	private DatabaseService databaseService;
+	private JDBCService jdbcService;
 
 	@Override
 	public void insertPrenotazione(PrenotazioneVo prenotazione) throws Exception {
@@ -27,7 +28,7 @@ public class PrenotazioneRepositoryImpl implements PrenotazioneRepository{
 		
 		try {
 			
-			connection = databaseService.getDatabaseConnection();
+			connection = jdbcService.getDatabaseConnection();
 			
 			PreparedStatement ps = connection.prepareStatement(query);
 			
@@ -58,7 +59,7 @@ public class PrenotazioneRepositoryImpl implements PrenotazioneRepository{
 		String query = " DELETE FROM sys.PRENOTAZIONE WHERE ID_PRENOTAZIONE = ?";
 		try {
 			
-			connection = databaseService.getDatabaseConnection();
+			connection = jdbcService.getDatabaseConnection();
 			
 			PreparedStatement ps = connection.prepareStatement(query);
 			
@@ -86,7 +87,7 @@ public class PrenotazioneRepositoryImpl implements PrenotazioneRepository{
 				+ "WHERE ID_PRENOTAZIONE = ?";
 		try {
 			
-			connection = databaseService.getDatabaseConnection();
+			connection = jdbcService.getDatabaseConnection();
 			
 			PreparedStatement ps = connection.prepareStatement(query);
 			
@@ -118,7 +119,7 @@ public class PrenotazioneRepositoryImpl implements PrenotazioneRepository{
 		String query = "SELECT p.* FROM sys.PRENOTAZIONE p INNER JOIN sys.UTENTE u ON p.ID_UTENTE_PRENOTAZIONE = u.ID_UTENTE WHERE p.ID_UTENTE_PRENOTAZIONE = ? ";
 		try {
 			
-			connection = databaseService.getDatabaseConnection();
+			connection = jdbcService.getDatabaseConnection();
 			
 			PreparedStatement ps = connection.prepareStatement(query);
 			
