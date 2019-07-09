@@ -8,6 +8,4 @@ public interface UtenteRepository {
 	
 	UtenteVo login(String username, String password);
 	
-	boolean profileType(Long id);
-
 }

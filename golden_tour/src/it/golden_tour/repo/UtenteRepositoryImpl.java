@@ -75,32 +75,4 @@ public class UtenteRepositoryImpl implements UtenteRepository {
 		
 		return user;
 	}
-
-	@Override
-	public boolean profileType(Long id) {
-		
-		Connection connection = null;
-		boolean isAdmin = false;
-		
-		try {
-			
-			connection = databaseService.getDatabaseConnection();
-			
-			PreparedStatement ps = connection.prepareStatement();
-			
-			ps.executeQuery("select u.* from sys.utente u join sys.tipologia_utente t on u.id_tipologia = t.id_tipologia_utente where id_utente = ? and id_tipologia = 1");
-			ps.setLong(1, id);
-			
-			ResultSet rs = ps.executeQuery();
-			
-			if(rs.next()) {
-				isAdmin = true;
-			}
-			
-			
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return isAdmin;
-	}
 }
