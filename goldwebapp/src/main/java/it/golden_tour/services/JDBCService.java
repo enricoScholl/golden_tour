@@ -42,7 +42,7 @@ public class JDBCService implements DatabaseService {
 
 	@Override
 	public Connection getDatabaseConnection() throws SQLException {
-		return null;//SdataSource.getConnection();
+		return dataSource.getConnection();
 	}
 
 }
