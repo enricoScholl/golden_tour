@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
 import it.golden_tour.config.ConfigBean;
+import oracle.jdbc.pool.OracleDataSource;
 
 @Service("jdbcService")
 @Scope(value = "singleton")
@@ -18,17 +19,17 @@ public class JDBCService implements DatabaseService {
 	@Autowired(required = true)
 	private ConfigBean configBean;
 
-	//private OracleDataSource dataSource;
+	private OracleDataSource dataSource;
 
 	@PostConstruct
 	public void initService() throws Exception {
 
 		try {
-/*
-			dataSource.setURL("jdbc:oracle:thin:@localhost:1521:xe");
-			dataSource.setDatabaseName("XE");
-			dataSource.setUser("SYSTEM");
-			dataSource.setPassword("goldenTour");*/
+
+			dataSource.setURL(configBean.getDatabaseUrl());
+			dataSource.setDatabaseName(configBean.getDatabaseName());
+			dataSource.setUser(configBean.getDatabaseUsername());
+			dataSource.setPassword(configBean.getDatabasePassword());
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -41,7 +42,7 @@ public class JDBCService implements DatabaseService {
 
 	@Override
 	public Connection getDatabaseConnection() throws SQLException {
-		return null;//SdataSource.getConnection();
+		return dataSource.getConnection();
 	}
 
 }
