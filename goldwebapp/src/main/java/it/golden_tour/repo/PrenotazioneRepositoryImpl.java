@@ -11,25 +11,27 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import it.golden_tour.entities.PrenotazioneVo;
+import it.golden_tour.services.DatabaseService;
 
 @Repository(value = "prenotazioniRepository")
 public class PrenotazioneRepositoryImpl implements PrenotazioneRepository{
 	
 	@Autowired(required=true)
-	//private DatabaseService databaseService;
+	private DatabaseService databaseService;
 
 	@Override
 	public void insertPrenotazione(PrenotazioneVo prenotazione) throws Exception {
 		
 		Connection connection = null;
+		String query = " INSERT INTO sys.prenotazione(ID_PRENOTAZIONE,ID_PACCHETTO_PRENOTAZIONE,ID_VIAGGIO_PRENOTAZIONE,ID_UTENTE_PRENOTAZIONE,COSTO_TOTALE) VALUES (?,?,?,?,?) ";
 		
 		try {
 			
 			connection = databaseService.getDatabaseConnection();
 			
-			PreparedStatement ps = connection.prepareStatement();
+			PreparedStatement ps = connection.prepareStatement(query);
 			
-			String query = " INSERT INTO sys.prenotazione(ID_PRENOTAZIONE,ID_PACCHETTO_PRENOTAZIONE,ID_VIAGGIO_PRENOTAZIONE,ID_UTENTE_PRENOTAZIONE,COSTO_TOTALE) VALUES (?,?,?,?,?) ";
+			
 			ps.setString(1, prenotazione.getId());
 			ps.setLong(2, prenotazione.getIdPacchetto());
 			ps.setLong(3, prenotazione.getIdViaggio());
@@ -53,14 +55,14 @@ public class PrenotazioneRepositoryImpl implements PrenotazioneRepository{
 	public void deletePrenotazione(PrenotazioneVo prenotazione) throws Exception {
 
 		Connection connection = null;
-		
+		String query = " DELETE FROM sys.PRENOTAZIONE WHERE ID_PRENOTAZIONE = ?";
 		try {
 			
 			connection = databaseService.getDatabaseConnection();
 			
-			PreparedStatement ps = connection.prepareStatement();
+			PreparedStatement ps = connection.prepareStatement(query);
 			
-			String query = " DELETE FROM sys.PRENOTAZIONE WHERE ID_PRENOTAZIONE = ?";
+			
 			ps.setString(1, prenotazione.getId());
 			ps.executeUpdate();			
 			
@@ -80,15 +82,15 @@ public class PrenotazioneRepositoryImpl implements PrenotazioneRepository{
 	public void updatePrenotazione(PrenotazioneVo prenotazione) throws Exception {
 		
 		Connection connection = null;
-		
+		String query = " UPDATE sys.PRENOTAZIONE SET ID_PACCHETTO_PRENOTAZIONE = ?, ID_VIAGGIO_PRENOTAZIONE = ?, ID_UTENTE_PRENOTAZIONE = ?, COSTO_TOTALE = ? "
+				+ "WHERE ID_PRENOTAZIONE = ?";
 		try {
 			
 			connection = databaseService.getDatabaseConnection();
 			
-			PreparedStatement ps = connection.prepareStatement();
+			PreparedStatement ps = connection.prepareStatement(query);
 			
-			String query = " UPDATE sys.PRENOTAZIONE SET ID_PACCHETTO_PRENOTAZIONE = ?, ID_VIAGGIO_PRENOTAZIONE = ?, ID_UTENTE_PRENOTAZIONE = ?, COSTO_TOTALE = ? "
-					+ "WHERE ID_PRENOTAZIONE = ?";
+			
 			ps.setLong(1, prenotazione.getIdPacchetto());
 			ps.setLong(2, prenotazione.getIdViaggio());
 			ps.setLong(3, prenotazione.getIdUtente());
@@ -113,14 +115,14 @@ public class PrenotazioneRepositoryImpl implements PrenotazioneRepository{
 		List<PrenotazioneVo> listPrenotazioni = new ArrayList<PrenotazioneVo>();
 		
 		Connection connection = null;
-		
+		String query = "SELECT p.* FROM sys.PRENOTAZIONE p INNER JOIN sys.UTENTE u ON p.ID_UTENTE_PRENOTAZIONE = u.ID_UTENTE WHERE p.ID_UTENTE_PRENOTAZIONE = ? ";
 		try {
 			
 			connection = databaseService.getDatabaseConnection();
 			
-			PreparedStatement ps = connection.prepareStatement();
+			PreparedStatement ps = connection.prepareStatement(query);
 			
-			String query = "SELECT p.* FROM sys.PRENOTAZIONE p INNER JOIN sys.UTENTE u ON p.ID_UTENTE_PRENOTAZIONE = u.ID_UTENTE WHERE p.ID_UTENTE_PRENOTAZIONE = ? ";
+			
 			ps.setLong(1, id);
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()) {
