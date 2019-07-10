@@ -125,7 +125,7 @@ public class PacchettoRepositoryImpl implements PacchettoRepository{
 			try {
 				
 				connection = jdbcService.getDatabaseConnection();
-				connection.setAutoCommit(false);
+				
 				PreparedStatement ps = connection.prepareStatement(query);
 				ps.setLong(1, id);
 				ResultSet rs = ps.executeQuery();
@@ -140,11 +140,11 @@ public class PacchettoRepositoryImpl implements PacchettoRepository{
 					
 					listaPacchetti.add(p);
 				}	
-				connection.commit();
+				
 				
 			} catch (Exception e) {
 				
-				connection.rollback();
+				
 				e.printStackTrace();
 				throw new Exception("Errore durante la richiesta della lista dei pacchetti.");
 				
