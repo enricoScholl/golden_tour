@@ -41,13 +41,12 @@ public class PacchettoRepositoryImpl implements PacchettoRepository{
 				
 				connection.rollback();
 				e.printStackTrace();
-				throw new Exception("Errore durante l'inserimento della prenotazione.");
+				throw new Exception("Errore durante l'inserimento del pacchetto.");
 				
 			} finally {
 				
 				if(connection != null) 
-					connection.close();
-				
+					connection.close();				
 			}
 			
 		}
