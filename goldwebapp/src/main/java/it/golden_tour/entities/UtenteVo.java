@@ -45,5 +45,4 @@ public class UtenteVo {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	
 }
