@@ -11,7 +11,7 @@ import it.golden_tour.repo.PrenotazioneRepository;
 @Service("prenotazioneService")
 public class PrenotazioneServiceImpl implements PrenotazioneService {
 	
-	@Autowired
+	@Autowired(required = true)
 	PrenotazioneRepository prenotazioneRepository;
 
 	@Override
