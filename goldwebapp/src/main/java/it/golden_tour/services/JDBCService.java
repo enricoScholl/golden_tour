@@ -23,9 +23,9 @@ public class JDBCService implements DatabaseService {
 
 	@PostConstruct
 	public void initService() throws Exception {
-
+		
 		try {
-
+			dataSource = new OracleDataSource();
 			dataSource.setURL(configBean.getDatabaseUrl());
 			dataSource.setDatabaseName(configBean.getDatabaseName());
 			dataSource.setUser(configBean.getDatabaseUsername());
