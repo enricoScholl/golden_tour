@@ -11,6 +11,8 @@ public interface FeedbackRepository {
 	void deleteFeedback(FeedbackVo feedback) throws Exception;
 
 	void updateFeedback(FeedbackVo feedback) throws Exception;
+	
+	Long idFeedback() throws Exception; 
 
 	List<FeedbackVo> getAllFeedback() throws Exception;
 

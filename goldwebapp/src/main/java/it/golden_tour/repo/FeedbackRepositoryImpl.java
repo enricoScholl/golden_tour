@@ -3,6 +3,7 @@ package it.golden_tour.repo;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,6 +49,32 @@ public class FeedbackRepositoryImpl implements FeedbackRepository {
 				connection.close();
 		}
 		
+	}
+	
+	public Long idFeedback() throws Exception {
+		int a = 0; 
+		Long l = null;
+		Connection connection = null; 
+		String query = " SELECT seq_feedback.NEXTVAL FROM dual"; 
+		try {
+			connection=jdbcService.getDatabaseConnection();
+			PreparedStatement ps = connection.prepareStatement(query); 
+			ResultSet rs = ps.executeQuery();
+			if(rs.next()){
+			 a =rs.getInt("nextval");
+			 l = new Long(a);
+			}
+			
+		}catch (SQLException e) {
+				
+				e.printStackTrace();
+				throw new Exception("Errore sequence.");
+				
+			} finally {
+				if(connection != null) 
+					connection.close(); 
+		} 
+		return l ;
 	}
 	
 	@Override
