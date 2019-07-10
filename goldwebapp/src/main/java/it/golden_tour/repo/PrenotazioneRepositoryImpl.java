@@ -129,7 +129,6 @@ public class PrenotazioneRepositoryImpl implements PrenotazioneRepository{
 		try {
 			
 			connection = jdbcService.getDatabaseConnection();
-			connection.setAutoCommit(false);
 			
 			PreparedStatement ps = connection.prepareStatement(query);
 			
@@ -146,11 +145,9 @@ public class PrenotazioneRepositoryImpl implements PrenotazioneRepository{
 				 
 				listPrenotazioni.add(p);
 			}	
-			connection.commit();
 			
 		} catch (Exception e) {
 			
-			connection.rollback();
 			e.printStackTrace();
 			throw new Exception("Errore durante la richiesta della lista di prenotazioni.");
 			

@@ -30,7 +30,7 @@ public class AdminRepositoryImpl implements AdminRepository {
 		try {
 			
 				connection = databaseService.getDatabaseConnection();
-				connection.setAutoCommit(false);
+				
 				PreparedStatement ps = connection.prepareStatement(query);
 				ps.executeQuery();
 				ps.setLong(1, id);
@@ -38,11 +38,11 @@ public class AdminRepositoryImpl implements AdminRepository {
 				if(rs.next()) {
 					isAdmin = true;
 				}
-				connection.commit();
+				
 			
 			} catch (Exception e) {
 				
-				connection.rollback();
+				
 				e.printStackTrace();
 				
 			} finally {
@@ -64,7 +64,7 @@ public class AdminRepositoryImpl implements AdminRepository {
 				try {
 					
 					connection = databaseService.getDatabaseConnection();
-					connection.setAutoCommit(false);
+					
 					PreparedStatement ps = connection.prepareStatement(query);
 					ResultSet rs = ps.executeQuery();
 					UtenteVo cliente = new UtenteVo();
@@ -77,11 +77,11 @@ public class AdminRepositoryImpl implements AdminRepository {
 						lista.add(cliente);
 					}
 					
-					connection.commit();
+					
 					
 				} catch (SQLException e) {
 					
-					connection.rollback();
+					
 					e.printStackTrace();
 				} finally {
 					if ( connection != null )
@@ -157,7 +157,7 @@ public class AdminRepositoryImpl implements AdminRepository {
 				try {
 					
 					connection = databaseService.getDatabaseConnection();
-					connection.setAutoCommit(false);
+					
 					PreparedStatement ps = connection.prepareStatement(query);
 					ResultSet rs = ps.executeQuery();
 					ProdottoVo prodotto = new ProdottoVo();
@@ -170,10 +170,10 @@ public class AdminRepositoryImpl implements AdminRepository {
 						lista.add(prodotto);
 					}
 					
-					connection.commit();
+					
 					
 				} catch (SQLException e) {
-						connection.rollback();
+						
 						e.printStackTrace();
 				} finally {
 					if ( connection != null )

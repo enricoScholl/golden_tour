@@ -57,7 +57,7 @@ public class UtenteRepositoryImpl implements UtenteRepository{
 			try {
 				
 				connection = databaseService.getDatabaseConnection();
-				connection.setAutoCommit(false);
+				
 				
 				PreparedStatement ps = connection.prepareStatement(query);
 				
@@ -75,10 +75,10 @@ public class UtenteRepositoryImpl implements UtenteRepository{
 					rs.getString("username_utente");
 					rs.getString("password_utente");
 				}
-				connection.commit();
+				
 				
 			} catch (SQLException e) {
-				connection.rollback();
+				
 				e.printStackTrace();
 			} finally {
 				if(connection!=null)
