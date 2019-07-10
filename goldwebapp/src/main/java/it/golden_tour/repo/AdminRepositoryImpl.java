@@ -21,7 +21,7 @@ public class AdminRepositoryImpl implements AdminRepository {
 		private JDBCService databaseService;
 	
 		@Override
-		public boolean isAdmin(Long id) {
+		public boolean isAdmin(Long id) throws Exception{
 		
 		Connection connection = null;
 		boolean isAdmin = false;
@@ -29,28 +29,33 @@ public class AdminRepositoryImpl implements AdminRepository {
 		
 		try {
 			
-			connection = databaseService.getDatabaseConnection();
+				connection = databaseService.getDatabaseConnection();
+				connection.setAutoCommit(false);
+				PreparedStatement ps = connection.prepareStatement(query);
+				ps.executeQuery();
+				ps.setLong(1, id);
+				ResultSet rs = ps.executeQuery();
+				if(rs.next()) {
+					isAdmin = true;
+				}
+				connection.commit();
 			
-			PreparedStatement ps = connection.prepareStatement(query);
-			
-			ps.executeQuery();
-			ps.setLong(1, id);
-			
-			ResultSet rs = ps.executeQuery();
-			
-			if(rs.next()) {
-				isAdmin = true;
+			} catch (Exception e) {
+				
+				connection.rollback();
+				e.printStackTrace();
+				
+			} finally {
+				
+				if(connection != null) 
+					connection.close();
+				
 			}
-			
-			
-		} catch (SQLException e) {
-			e.printStackTrace();
+			return isAdmin;
 		}
-		return isAdmin;
-	}
 
 		@Override
-		public List<UtenteVo> listaClienti(Long id) {
+		public List<UtenteVo> listaClienti(Long id) throws Exception{
 			
 			List<UtenteVo> lista = new ArrayList<UtenteVo>();
 			Connection connection = null;
@@ -59,11 +64,9 @@ public class AdminRepositoryImpl implements AdminRepository {
 				try {
 					
 					connection = databaseService.getDatabaseConnection();
-					
+					connection.setAutoCommit(false);
 					PreparedStatement ps = connection.prepareStatement(query);
-					
 					ResultSet rs = ps.executeQuery();
-					
 					UtenteVo cliente = new UtenteVo();
 					
 					while(rs.next()) {
@@ -74,21 +77,28 @@ public class AdminRepositoryImpl implements AdminRepository {
 						lista.add(cliente);
 					}
 					
+					connection.commit();
+					
 				} catch (SQLException e) {
+					
+					connection.rollback();
 					e.printStackTrace();
+				} finally {
+					if ( connection != null )
+						connection.close();
 				}
 			return lista;
 		}
 
 		@Override
-		public void updateCliente(UtenteVo cliente) {
+		public void updateCliente(UtenteVo cliente) throws Exception {
 			
 			Connection connection = null;
 			String query = "update sys.utente set id_tipologia = ?, nome_utente = ?, cognome_utente = ?, username = ?, password = ? where id_utente = ?";
 			try {
 				
 					connection = databaseService.getDatabaseConnection();
-					
+					connection.setAutoCommit(false);
 					PreparedStatement ps = connection.prepareStatement(query);
 					
 					ps.executeUpdate();
@@ -98,14 +108,21 @@ public class AdminRepositoryImpl implements AdminRepository {
 					ps.setString(4, cliente.getUsername());
 					ps.setString(5, cliente.getPassword());
 					ps.setLong(6, cliente.getId());
+					
+					connection.commit();
 				
 			} catch (SQLException e) {
-				e.printStackTrace();
+				
+					connection.rollback();
+					e.printStackTrace();
+			} finally {
+				if ( connection != null )
+						connection.close();
 			}
 		}
 
 		@Override
-		public void deleteCliente(UtenteVo cliente) {
+		public void deleteCliente(UtenteVo cliente) throws Exception{
 			
 			Connection connection = null;
 			String query = "delete from sys.utente where id_utente = ?";
@@ -113,23 +130,25 @@ public class AdminRepositoryImpl implements AdminRepository {
 			try {
 				
 					connection = databaseService.getDatabaseConnection();
-					
+					connection.setAutoCommit(false);
 					PreparedStatement ps = connection.prepareStatement(query);
-					
 					ps.setLong(1, cliente.getId());
-					
 					ps.executeUpdate();
+					connection.commit();
 					
 			} catch (SQLException e) {
+					connection.rollback();
+					e.printStackTrace();
 				
-				e.printStackTrace();
-				
+			} finally {
+				if ( connection != null )
+						connection.close();
 			}
 			
 		}
 
 		@Override
-		public List<ProdottoVo> listaProdotti() {
+		public List<ProdottoVo> listaProdotti() throws Exception{
 			
 			Connection connection = null;
 			String query = "select * from sys.utente where id_tipologia = 2";
@@ -138,11 +157,9 @@ public class AdminRepositoryImpl implements AdminRepository {
 				try {
 					
 					connection = databaseService.getDatabaseConnection();
-					
+					connection.setAutoCommit(false);
 					PreparedStatement ps = connection.prepareStatement(query);
-					
 					ResultSet rs = ps.executeQuery();
-					
 					ProdottoVo prodotto = new ProdottoVo();
 					
 					while(rs.next()) {
@@ -153,35 +170,47 @@ public class AdminRepositoryImpl implements AdminRepository {
 						lista.add(prodotto);
 					}
 					
+					connection.commit();
+					
 				} catch (SQLException e) {
-					e.printStackTrace();
+						connection.rollback();
+						e.printStackTrace();
+				} finally {
+					if ( connection != null )
+							connection.close();
 				}
 			return lista;
 		}
 
 		@Override
-		public void updateProdotto(ProdottoVo prodotto) {
+		public void updateProdotto(ProdottoVo prodotto) throws Exception{
 			
 			Connection connection = null;
 			String query = "update sys.prodotto set ds_prodotto = ? where id_prodotto = ?";
 			try {
 				
 					connection = databaseService.getDatabaseConnection();
-					
+					connection.setAutoCommit(false);
 					PreparedStatement ps = connection.prepareStatement(query);
-					
 					ps.executeUpdate();
 					ps.setString(1, prodotto.getDescrizione());
 					ps.setLong(2, prodotto.getId());
+					connection.commit();
 				
 			} catch (SQLException e) {
+				
+				connection.rollback();
 				e.printStackTrace();
+				
+			} finally {
+				if ( connection != null )
+						connection.close();
 			}
 			
 		}
 
 		@Override
-		public void deleteProdotto(ProdottoVo prodotto) {
+		public void deleteProdotto(ProdottoVo prodotto) throws Exception {
 			
 			Connection connection = null;
 			String query = "delete from sys.utente where id_utente = ?";
@@ -189,17 +218,19 @@ public class AdminRepositoryImpl implements AdminRepository {
 			try {
 				
 					connection = databaseService.getDatabaseConnection();
-					
+					connection.setAutoCommit(false);
 					PreparedStatement ps = connection.prepareStatement(query);
-					
 					ps.setLong(1, prodotto.getId());
-					
 					ps.executeUpdate();
+					connection.commit();
 					
 			} catch (SQLException e) {
+					connection.rollback();
+					e.printStackTrace();
 				
-				e.printStackTrace();
-				
+			} finally {
+				if ( connection != null )
+						connection.close();
 			}
 			
 		}	

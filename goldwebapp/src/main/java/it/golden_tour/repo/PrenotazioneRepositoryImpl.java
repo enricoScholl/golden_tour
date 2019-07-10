@@ -29,6 +29,7 @@ public class PrenotazioneRepositoryImpl implements PrenotazioneRepository{
 		try {
 			
 			connection = jdbcService.getDatabaseConnection();
+			connection.setAutoCommit(false);
 			
 			PreparedStatement ps = connection.prepareStatement(query);
 			
@@ -38,10 +39,12 @@ public class PrenotazioneRepositoryImpl implements PrenotazioneRepository{
 			ps.setLong(3, prenotazione.getIdViaggio());
 			ps.setLong(4, prenotazione.getIdUtente());
 			ps.setDouble(5, prenotazione.getCostoTotale());
-			ps.executeUpdate();			
+			ps.executeUpdate();	
+			connection.commit();
 			
 		} catch (Exception e) {
 			
+			connection.rollback();
 			e.printStackTrace();
 			throw new Exception("Errore durante l'inserimento della prenotazione.");
 			
@@ -60,15 +63,18 @@ public class PrenotazioneRepositoryImpl implements PrenotazioneRepository{
 		try {
 			
 			connection = jdbcService.getDatabaseConnection();
+			connection.setAutoCommit(false);
 			
 			PreparedStatement ps = connection.prepareStatement(query);
 			
 			
 			ps.setString(1, prenotazione.getId());
-			ps.executeUpdate();			
+			ps.executeUpdate();	
+			connection.commit();
 			
 		} catch (Exception e) {
 			
+			connection.rollback();
 			e.printStackTrace();
 			throw new Exception("Errore durante l'eliminazione della prenotazione.");
 			
@@ -88,6 +94,7 @@ public class PrenotazioneRepositoryImpl implements PrenotazioneRepository{
 		try {
 			
 			connection = jdbcService.getDatabaseConnection();
+			connection.setAutoCommit(false);
 			
 			PreparedStatement ps = connection.prepareStatement(query);
 			
@@ -98,9 +105,11 @@ public class PrenotazioneRepositoryImpl implements PrenotazioneRepository{
 			ps.setDouble(4, prenotazione.getCostoTotale());
 			ps.setString(5, prenotazione.getId());
 			ps.executeUpdate();			
+			connection.commit();
 			
 		} catch (Exception e) {
 			
+			connection.rollback();
 			e.printStackTrace();
 			throw new Exception("Errore durante l'aggiornamento della prenotazione.");
 			
@@ -120,6 +129,7 @@ public class PrenotazioneRepositoryImpl implements PrenotazioneRepository{
 		try {
 			
 			connection = jdbcService.getDatabaseConnection();
+			connection.setAutoCommit(false);
 			
 			PreparedStatement ps = connection.prepareStatement(query);
 			
@@ -135,10 +145,12 @@ public class PrenotazioneRepositoryImpl implements PrenotazioneRepository{
 				p.setCostoTotale(rs.getFloat("COSTO_TOTALE"));
 				 
 				listPrenotazioni.add(p);
-			}			
+			}	
+			connection.commit();
 			
 		} catch (Exception e) {
 			
+			connection.rollback();
 			e.printStackTrace();
 			throw new Exception("Errore durante la richiesta della lista di prenotazioni.");
 			

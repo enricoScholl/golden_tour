@@ -16,7 +16,7 @@ public class UtenteRepositoryImpl implements UtenteRepository{
 		public JDBCService databaseService;
 
 		@Override
-		public void newUser(UtenteVo utente) {
+		public void newUser(UtenteVo utente) throws Exception {
 			
 			Connection connection = null;
 			String query = "insert into sys.utente (ID_UTENTE, ID_TIPOLOGIA, NOME_UTENTE, COGNOME_UTENTE, USERNAME, PASSWORD) VALUES ?, ?, ?, ?, ?, ? ";
@@ -24,6 +24,7 @@ public class UtenteRepositoryImpl implements UtenteRepository{
 			try {
 				
 				connection = databaseService.getDatabaseConnection();
+				connection.setAutoCommit(false);
 				
 				PreparedStatement ps = connection.prepareStatement(query);
 				
@@ -35,15 +36,19 @@ public class UtenteRepositoryImpl implements UtenteRepository{
 				ps.setString(4, utente.getCognome());
 				ps.setString(5, utente.getUsername());
 				ps.setString(6, utente.getPassword());
-				
+				connection.commit();
 				
 			} catch (SQLException e) {
+				connection.rollback();
 				e.printStackTrace();
+			} finally {
+				if(connection!=null)
+					connection.close();
 			}
 		}
 
 		@Override
-		public UtenteVo login(String username, String password) {
+		public UtenteVo login(String username, String password) throws Exception{
 			
 			Connection connection = null;
 			UtenteVo user = null;
@@ -52,6 +57,7 @@ public class UtenteRepositoryImpl implements UtenteRepository{
 			try {
 				
 				connection = databaseService.getDatabaseConnection();
+				connection.setAutoCommit(false);
 				
 				PreparedStatement ps = connection.prepareStatement(query);
 				
@@ -69,9 +75,14 @@ public class UtenteRepositoryImpl implements UtenteRepository{
 					rs.getString("username_utente");
 					rs.getString("password_utente");
 				}
+				connection.commit();
 				
 			} catch (SQLException e) {
+				connection.rollback();
 				e.printStackTrace();
+			} finally {
+				if(connection!=null)
+					connection.close();
 			}
 			
 			return user;

@@ -28,15 +28,18 @@ public class PacchettoRepositoryImpl implements PacchettoRepository{
 			try {
 				
 				connection = jdbcService.getDatabaseConnection();
+				connection.setAutoCommit(false);
 				PreparedStatement ps = connection.prepareStatement(query);
 				ps.setLong(1, pacchetto.getId());
 				ps.setLong(2, pacchetto.getIdProdotto());
 				ps.setString(3, pacchetto.getDestinazione());
 				ps.setFloat(4, pacchetto.getPrezzoPacchetto());
-				ps.executeUpdate();			
+				ps.executeUpdate();	
+				connection.commit();
 				
 			} catch (Exception e) {
 				
+				connection.rollback();
 				e.printStackTrace();
 				throw new Exception("Errore durante l'inserimento della prenotazione.");
 				
@@ -58,12 +61,15 @@ public class PacchettoRepositoryImpl implements PacchettoRepository{
 			try {
 				
 				connection = jdbcService.getDatabaseConnection();
+				connection.setAutoCommit(false);
 				PreparedStatement ps = connection.prepareStatement(query);
 				ps.setLong(1, pacchetto.getId());
-				ps.executeUpdate();			
+				ps.executeUpdate();
+				connection.commit();
 				
 			} catch (Exception e) {
 				
+				connection.rollback();
 				e.printStackTrace();
 				throw new Exception("Errore durante l'eliminazione del pacchetto.");
 				
@@ -86,15 +92,18 @@ public class PacchettoRepositoryImpl implements PacchettoRepository{
 			try {
 				
 				connection = jdbcService.getDatabaseConnection();
+				connection.setAutoCommit(false);
 				PreparedStatement ps = connection.prepareStatement(query);
 				ps.setLong(1, pacchetto.getId());
 				ps.setLong(2, pacchetto.getIdProdotto());
 				ps.setString(3, pacchetto.getDestinazione());
 				ps.setFloat(4, pacchetto.getPrezzoPacchetto());
-				ps.executeUpdate();			
+				ps.executeUpdate();	
+				connection.commit();
 				
 			} catch (Exception e) {
 				
+				connection.rollback();
 				e.printStackTrace();
 				throw new Exception("Errore durante l'aggiornamento del pacchetto.");
 				
@@ -116,6 +125,7 @@ public class PacchettoRepositoryImpl implements PacchettoRepository{
 			try {
 				
 				connection = jdbcService.getDatabaseConnection();
+				connection.setAutoCommit(false);
 				PreparedStatement ps = connection.prepareStatement(query);
 				ps.setLong(1, id);
 				ResultSet rs = ps.executeQuery();
@@ -129,10 +139,12 @@ public class PacchettoRepositoryImpl implements PacchettoRepository{
 					p.setPrezzoPacchetto(rs.getFloat("PREZZO_PACCHETTO"));
 					
 					listaPacchetti.add(p);
-				}			
+				}	
+				connection.commit();
 				
 			} catch (Exception e) {
 				
+				connection.rollback();
 				e.printStackTrace();
 				throw new Exception("Errore durante la richiesta della lista dei pacchetti.");
 				

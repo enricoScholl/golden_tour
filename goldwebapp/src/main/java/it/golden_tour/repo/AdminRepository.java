@@ -7,18 +7,18 @@ import it.golden_tour.entities.UtenteVo;
 
 public interface AdminRepository {
 	
-	boolean isAdmin(Long id);
+	boolean isAdmin(Long id) throws Exception;
 	
-	List<UtenteVo> listaClienti(Long id);
+	List<UtenteVo> listaClienti(Long id) throws Exception;
 	
-	void updateCliente(UtenteVo cliente);
+	void updateCliente(UtenteVo cliente) throws Exception;
 	
-	void deleteCliente(UtenteVo cliente);
+	void deleteCliente(UtenteVo cliente) throws Exception;
 	
-	List<ProdottoVo> listaProdotti();
+	List<ProdottoVo> listaProdotti() throws Exception;
 	
-	void updateProdotto(ProdottoVo prodotto);
+	void updateProdotto(ProdottoVo prodotto) throws Exception;
 	
-	void deleteProdotto(ProdottoVo prodotto);
+	void deleteProdotto(ProdottoVo prodotto) throws Exception;
 
 }
