@@ -2,12 +2,13 @@ package it.golden_tour.services;
 
 import java.util.List;
 
+import it.golden_tour.dto.UtenteDto;
 import it.golden_tour.entities.ProdottoVo;
 import it.golden_tour.entities.UtenteVo;
 
 public interface AdminService {
 	
-	List<UtenteVo> listaClienti(Long id) throws Exception;
+	List<UtenteDto> listaClienti(Long id) throws Exception;
 
     void updateCliente(UtenteVo cliente, Long id) throws Exception;
 
@@ -18,6 +19,5 @@ public interface AdminService {
     void updateProdotto(ProdottoVo prodotto, Long id) throws Exception;
 
     void deleteProdotto(ProdottoVo prodotto, Long id) throws Exception;
-
 
 }

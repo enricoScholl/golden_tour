@@ -32,7 +32,7 @@ public class AdminRepositoryImpl implements AdminRepository {
 				connection = databaseService.getDatabaseConnection();
 				
 				PreparedStatement ps = connection.prepareStatement(query);
-				ps.executeQuery();
+				
 				ps.setLong(1, id);
 				ResultSet rs = ps.executeQuery();
 				if(rs.next()) {
@@ -59,7 +59,7 @@ public class AdminRepositoryImpl implements AdminRepository {
 			
 			List<UtenteVo> lista = new ArrayList<UtenteVo>();
 			Connection connection = null;
-			String query = "select * from sys.utente where id_tipologia = 2";
+			String query = "select * from sys.utente where id_tipologia = 2 ";
 				
 				try {
 					
@@ -73,7 +73,7 @@ public class AdminRepositoryImpl implements AdminRepository {
 						cliente.setId(rs.getLong("id_utente"));
 						cliente.setNome(rs.getString("nome_utente"));
 						cliente.setCognome(rs.getString("cognome_utente"));
-						cliente.setUsername(rs.getString("username_utente"));
+						cliente.setUsername(rs.getString("username"));
 						lista.add(cliente);
 					}
 					
@@ -151,7 +151,7 @@ public class AdminRepositoryImpl implements AdminRepository {
 		public List<ProdottoVo> listaProdotti() throws Exception{
 			
 			Connection connection = null;
-			String query = "select * from sys.utente where id_tipologia = 2";
+			String query = "select * from sys.prodotto";
 			List<ProdottoVo> lista = new ArrayList<ProdottoVo>();
 				
 				try {
@@ -160,12 +160,12 @@ public class AdminRepositoryImpl implements AdminRepository {
 					
 					PreparedStatement ps = connection.prepareStatement(query);
 					ResultSet rs = ps.executeQuery();
-					ProdottoVo prodotto = new ProdottoVo();
+					
 					
 					while(rs.next()) {
-						
+						ProdottoVo prodotto = new ProdottoVo();
 						prodotto.setId(rs.getLong("id_prodotto"));
-						prodotto.setDescrizione(rs.getString("ds_descrizione"));
+						prodotto.setDescrizione(rs.getString("ds_prodotto"));
 						
 						lista.add(prodotto);
 					}
@@ -192,9 +192,9 @@ public class AdminRepositoryImpl implements AdminRepository {
 					connection = databaseService.getDatabaseConnection();
 					connection.setAutoCommit(false);
 					PreparedStatement ps = connection.prepareStatement(query);
-					ps.executeUpdate();
 					ps.setString(1, prodotto.getDescrizione());
 					ps.setLong(2, prodotto.getId());
+					ps.executeUpdate();
 					connection.commit();
 				
 			} catch (SQLException e) {

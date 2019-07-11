@@ -53,8 +53,8 @@ public class UtenteRepositoryImpl implements UtenteRepository{
 		public UtenteVo login(String username, String password) throws Exception{
 			
 			Connection connection = null;
-			UtenteVo user = null;
-			String query = "select * from sys.utente where username_utente = ? and password_utente = ?";
+			UtenteVo user = new UtenteVo();
+			String query = "select * from sys.utente where username = ? and password = ?";
 			
 			try {
 				
@@ -74,13 +74,12 @@ public class UtenteRepositoryImpl implements UtenteRepository{
 					user.setTipologia(rs.getLong("id_tipologia"));
 					user.setNome(rs.getString("nome_utente"));
 					user.setCognome(rs.getString("cognome_utente"));
-					user.setUsername(rs.getString("username_utente"));
-					user.setPassword(rs.getString("password_utente"));
+					user.setUsername(rs.getString("username"));
+					user.setPassword(rs.getString("password"));
 				}
 				
 				
 			} catch (SQLException e) {
-				
 				e.printStackTrace();
 			} finally {
 				if(connection!=null)
