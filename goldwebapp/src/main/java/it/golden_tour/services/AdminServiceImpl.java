@@ -13,6 +13,7 @@ import it.golden_tour.entities.ProdottoVo;
 import it.golden_tour.entities.UtenteVo;
 import it.golden_tour.repo.AdminRepository;
 import it.golden_tour.repo.PacchettoRepository;
+import it.golden_tour.utils.PacchettoUtils;
 import it.golden_tour.utils.UtenteUtils;
 
 @Service("adminService")
@@ -70,11 +71,18 @@ public class AdminServiceImpl implements AdminService {
     		adminRepository.deleteProdotto(prodotto);
     }
     
-    public List<PacchettoDto> getAllPacchetti(Long id) throws Exception {
+    @Override
+	public List<PacchettoDto> getAllPacchetti(Long id) throws Exception {
     	List<PacchettoDto> listaPacchettiDto = new ArrayList<PacchettoDto>();
     	if(adminRepository.isAdmin(id)) {
-    		List<UtenteVo> listaClientiVo = adminRepository.listaClienti();
+    		List<PacchettoVo> listaPacchettiVo = pacchettoRepository.getAllPacchetti();
+    		for (PacchettoVo p: listaPacchettiVo) {
+				PacchettoDto dto = PacchettoUtils.fromVoToDto(p);
+				listaPacchettiDto.add(dto);
+			}
+    	return listaPacchettiDto;
     	}
-    		return null;
+    		else 
+    			return null;
     }
 }
