@@ -13,4 +13,6 @@ public interface PrenotazioneRepository {
 	void updatePrenotazione(PrenotazioneVo prenotazione) throws Exception;
 	
 	List<PrenotazioneVo> getAllPrenotazioniByUser(Long id) throws Exception;
+	
+	PrenotazioneVo getDettaglioPrenotazione(Long id_user, String id_pren) throws Exception;
 }

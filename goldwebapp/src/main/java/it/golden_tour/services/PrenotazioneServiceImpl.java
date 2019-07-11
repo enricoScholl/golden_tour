@@ -27,5 +27,11 @@ public class PrenotazioneServiceImpl implements PrenotazioneService {
 		}
 		return listaPrenotazioniDto;
 	}
+	
+	public PrenotazioneDto getDettaglioPrenotazione(Long id_user, String id_pren) throws Exception{		
+		PrenotazioneVo pren_vo = prenotazioneRepository.getDettaglioPrenotazione(id_user, id_pren);
+		PrenotazioneDto pren_dto = PrenotazioneUtils.fromVoToDto(pren_vo);
+		return pren_dto;
+	}
 
 }

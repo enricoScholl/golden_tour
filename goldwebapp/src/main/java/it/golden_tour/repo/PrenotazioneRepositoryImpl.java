@@ -155,6 +155,43 @@ public class PrenotazioneRepositoryImpl implements PrenotazioneRepository{
 		return listPrenotazioni;
 	}
 	
+	public PrenotazioneVo getDettaglioPrenotazione(Long id_user, String id_pren) throws Exception{
+		
+		PrenotazioneVo p = new PrenotazioneVo();
+		Connection connection = null;
+		String query = "SELECT p.* FROM sys.PRENOTAZIONE p INNER JOIN sys.UTENTE u ON p.ID_UTENTE_PRENOTAZIONE = u.ID_UTENTE WHERE p.ID_UTENTE_PRENOTAZIONE = ? AND p.ID_PRENOTAZIONE = ? ";
+		
+		try {
+			
+			connection = jdbcService.getDatabaseConnection();
+			
+			PreparedStatement ps = connection.prepareStatement(query);
+			
+			ps.setLong(1, id_user);
+			ps.setString(2, id_pren);
+			
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()) {				
+				p.setId(rs.getString("ID_PRENOTAZIONE"));
+				p.setIdPacchetto(rs.getLong("ID_PACCHETTO_PRENOTAZIONE"));
+				p.setIdViaggio(rs.getLong("ID_VIAGGIO_PRENOTAZIONE"));
+				p.setIdUtente(rs.getLong("ID_UTENTE_PRENOTAZIONE"));
+				p.setCostoTotale(rs.getFloat("COSTO_TOTALE"));				
+			}	
+			
+		} catch (Exception e) {
+			
+			e.printStackTrace();
+			throw new Exception("Errore durante la richiesta della singola prenotazioni.");
+			
+		} finally {
+			if(connection != null) 
+				connection.close();
+		}
+		
+		return p;
+	}
+	
 	
 
 }
