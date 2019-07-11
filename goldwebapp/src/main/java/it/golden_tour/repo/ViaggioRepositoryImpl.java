@@ -84,8 +84,8 @@ public class ViaggioRepositoryImpl implements ViaggioRepository{
 	public void updateViaggio(ViaggioVo viaggio) throws Exception {
 		
 		Connection connection = null;
-		String query = " UPDATE sys.VIAGGIO SET ID_VIAGGIO = ?, TIPOLOGIA_MEZZO = ?, DATA_INIZIO = ?, DATA_FINE = ?, NOME_VIAGGIATORE = ?, COGNOME_VIAGGIATORE = ?, N_POSTI = ?, COSTO_VIAGGIO = ?  \"\r\n" + 
-				"				+ \"WHERE ID_VIAGGIO = ?";
+		String query = " UPDATE sys.VIAGGIO SET ID_VIAGGIO = ?, TIPOLOGIA_MEZZO = ?, DATA_INIZIO = ?, DATA_FINE = ?, NOME_VIAGGIATORE = ?, COGNOME_VIAGGIATORE = ?, N_POSTI = ?, COSTO_VIAGGIO = ?  " 
+				+ "WHERE ID_VIAGGIO = ?";
 		
 		try {
 			
