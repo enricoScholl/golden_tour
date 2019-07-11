@@ -1,5 +1,6 @@
 package it.golden_tour.services;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,13 +18,20 @@ public class FeedbackServiceImpl implements FeedbackService {
 	
 	
 	@Override
-	public List<FeedbackVo> getAllFeedback() throws Exception {
-		return feedbackRepository.getAllFeedback();
+	public List<FeedbackDto> getAllFeedback() throws Exception {
+		List<FeedbackVo> list = feedbackRepository.getAllFeedback();
+		List<FeedbackDto> listNew = new ArrayList<FeedbackDto>(); 
+		FeedbackDto d = null; 
+		for(FeedbackVo f : list) {
+			d = fromVoToDto(f);
+			listNew.add(d); 
+		}
+		return listNew;
 	}
 	
 	@Override
-	public void insert(FeedbackVo feedback) throws Exception {
-		feedbackRepository.insertFeedback(feedback);
+	public void insert(FeedbackDto feedback) throws Exception {
+		feedbackRepository.insertFeedback(fromDtoToVo(feedback));
 	}
 	
 	public FeedbackVo fromDtoToVo (FeedbackDto feedDto) throws Exception {
@@ -36,12 +44,12 @@ public class FeedbackServiceImpl implements FeedbackService {
 		return feedbackVo;
 	}
 	
-	public FeedbackDto fromVoToDto (FeedbackVo feedVo) throws Exception{
+	public FeedbackDto fromVoToDto (FeedbackVo f) throws Exception{
 		FeedbackDto feedbackDto=new FeedbackDto(); 
-		feedbackDto.setIdPrenotazione(feedVo.getIdPrenotazione());
-		feedbackDto.setOrganizzazioneViaggio(feedVo.getOrganizzazioneViaggio());
-		feedbackDto.setQualitaServizio(feedVo.getQualitaServizio());
-		feedbackDto.setSupportoCliente(feedVo.getSupportoCliente());
+		feedbackDto.setIdPrenotazione(f.getIdPrenotazione());
+		feedbackDto.setOrganizzazioneViaggio(f.getOrganizzazioneViaggio());
+		feedbackDto.setQualitaServizio(f.getQualitaServizio());
+		feedbackDto.setSupportoCliente(f.getSupportoCliente());
 		return feedbackDto;
 	}
 	

@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import it.golden_tour.entities.FeedbackVo;
@@ -18,6 +19,36 @@ public class FeedbackRepositoryImpl implements FeedbackRepository {
 
 	@Autowired(required=true)
 	private JDBCService jdbcService;
+	
+
+	public Long idFeedback() throws Exception {
+		
+		Long c = new Long(1);
+		Long a = null ; 
+		//Long l = null;
+		Connection connection = null; 
+		String query = "select max(to_number(id_feedback)) from sys.feedback"; 
+		PreparedStatement ps ; 
+		try {
+			connection=jdbcService.getDatabaseConnection();
+			ps = connection.prepareStatement(query); 
+			ResultSet rs = ps.executeQuery();
+			if(rs.next()){
+			 a =rs.getLong(1);
+			// l = new Long(a);
+			}
+			
+		}catch (SQLException e) {
+				
+				e.printStackTrace();
+				throw new Exception("Errore id feedback .");
+				
+			} finally {
+				if(connection != null) 
+					connection.close(); 
+		} 
+		return a+c;
+	}
 
 	@Override
 	public void insertFeedback(FeedbackVo feedback) throws Exception {
@@ -32,7 +63,7 @@ public class FeedbackRepositoryImpl implements FeedbackRepository {
 			PreparedStatement ps = connection.prepareStatement(query);
 			
 			
-			ps.setLong(1, feedback.getId());
+			ps.setLong(1, idFeedback());
 			ps.setString(2, feedback.getIdPrenotazione());
 			ps.setInt(3, feedback.getOrganizzazioneViaggio());
 			ps.setInt(4, feedback.getSupportoCliente());
@@ -51,31 +82,6 @@ public class FeedbackRepositoryImpl implements FeedbackRepository {
 		
 	}
 	
-	public Long idFeedback() throws Exception {
-		int a = 0; 
-		Long l = null;
-		Connection connection = null; 
-		String query = " SELECT seq_feedback.NEXTVAL FROM dual"; 
-		try {
-			connection=jdbcService.getDatabaseConnection();
-			PreparedStatement ps = connection.prepareStatement(query); 
-			ResultSet rs = ps.executeQuery();
-			if(rs.next()){
-			 a =rs.getInt("nextval");
-			 l = new Long(a);
-			}
-			
-		}catch (SQLException e) {
-				
-				e.printStackTrace();
-				throw new Exception("Errore sequence.");
-				
-			} finally {
-				if(connection != null) 
-					connection.close(); 
-		} 
-		return l ;
-	}
 	
 	@Override
 	public void deleteFeedback(FeedbackVo feedback) throws Exception {
@@ -141,7 +147,7 @@ public class FeedbackRepositoryImpl implements FeedbackRepository {
 		List<FeedbackVo> listFeedback = new ArrayList<FeedbackVo>();
 		
 		Connection connection = null;
-		String query = "SELECT f.* FROM sys.feedback f ";
+		String query = "SELECT * FROM sys.feedback ";
 		try {
 			
 			connection = jdbcService.getDatabaseConnection();
@@ -151,9 +157,10 @@ public class FeedbackRepositoryImpl implements FeedbackRepository {
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()) {
 				FeedbackVo f = new FeedbackVo();
-				f.setId(rs.getLong("ID"));
-				f.setIdPrenotazione(rs.getString("ID_PRENOTAZIONE"));
+				f.setId(rs.getLong("ID_FEEDBACK"));
+				f.setIdPrenotazione(rs.getString("ID_PRENOTAZIONE_FEEDBACK"));
 				f.setOrganizzazioneViaggio(rs.getInt("ORGANIZZAZIONE_VIAGGIO"));
+				f.setSupportoCliente(rs.getInt("SUPPORTO_CLIENTE"));
 				f.setQualitaServizio(rs.getInt("QUALITA_SERVIZIO"));
 				 
 				listFeedback.add(f);
