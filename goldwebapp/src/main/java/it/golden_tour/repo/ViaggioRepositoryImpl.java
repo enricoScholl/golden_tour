@@ -115,7 +115,7 @@ public class ViaggioRepositoryImpl implements ViaggioRepository{
 	}
 
 	@Override
-	public List<ViaggioVo> getAllViaggi(Long id) throws Exception {
+	public List<ViaggioVo> getAllViaggi() throws Exception {
 		
 		List<ViaggioVo> listaViaggi = new ArrayList<ViaggioVo>();
 		Connection connection = null;
@@ -125,7 +125,6 @@ public class ViaggioRepositoryImpl implements ViaggioRepository{
 			
 			connection = jdbcService.getDatabaseConnection();
 			PreparedStatement ps = connection.prepareStatement(query);
-			ps.setLong(1, id);
 			ResultSet rs = ps.executeQuery();
 			
 			while(rs.next()) {

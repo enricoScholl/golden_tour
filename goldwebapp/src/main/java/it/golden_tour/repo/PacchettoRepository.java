@@ -13,7 +13,7 @@ public interface PacchettoRepository {
 	
 	void updatePacchetto(PacchettoVo pacchetto) throws Exception;
 	
-	List<PacchettoVo> getAllPacchetti(Long id) throws Exception;
+	List<PacchettoVo> getAllPacchetti() throws Exception;
 
 	
 }

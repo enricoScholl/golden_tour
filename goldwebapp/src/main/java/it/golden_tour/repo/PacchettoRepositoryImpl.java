@@ -13,7 +13,7 @@ import it.golden_tour.entities.PacchettoVo;
 import it.golden_tour.entities.PrenotazioneVo;
 import it.golden_tour.services.JDBCService;
 
-@Repository(value = "pacchettiRepository")
+@Repository(value = "pacchettoRepository")
 public class PacchettoRepositoryImpl implements PacchettoRepository{
 
 		@Autowired(required=true)
@@ -115,7 +115,7 @@ public class PacchettoRepositoryImpl implements PacchettoRepository{
 		}
 
 		@Override
-		public List<PacchettoVo> getAllPacchetti(Long id) throws Exception {
+		public List<PacchettoVo> getAllPacchetti() throws Exception {
 			
 			List<PacchettoVo> listaPacchetti = new ArrayList<PacchettoVo>();
 			Connection connection = null;
@@ -126,13 +126,12 @@ public class PacchettoRepositoryImpl implements PacchettoRepository{
 				connection = jdbcService.getDatabaseConnection();
 				
 				PreparedStatement ps = connection.prepareStatement(query);
-				ps.setLong(1, id);
 				ResultSet rs = ps.executeQuery();
 				
 				while(rs.next()) {
 					
 					PacchettoVo p = new PacchettoVo();
-					p.setId(rs.getLong("ID_PACHETTO"));
+					p.setId(rs.getLong("ID_PACCHETTO"));
 					p.setIdProdotto(rs.getLong("ID_PRODOTTO_PACCHETTO"));
 					p.setDestinazione(rs.getString("DESTINAZIONE"));
 					p.setPrezzoPacchetto(rs.getFloat("PREZZO_PACCHETTO"));

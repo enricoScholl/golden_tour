@@ -12,6 +12,6 @@ void insertViaggio(ViaggioVo viaggio) throws Exception;
 	
 	void updateViaggio(ViaggioVo viaggio) throws Exception;
 	
-	List<ViaggioVo> getAllViaggi(Long id) throws Exception;
+	List<ViaggioVo> getAllViaggi() throws Exception;
 
 }
