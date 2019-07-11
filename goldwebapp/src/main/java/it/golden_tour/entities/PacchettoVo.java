@@ -31,7 +31,4 @@ public class PacchettoVo {
 	public void setPrezzoPacchetto(float prezzoPacchetto) {
 		this.prezzoPacchetto = prezzoPacchetto;
 	}
-	
-	
-
 }

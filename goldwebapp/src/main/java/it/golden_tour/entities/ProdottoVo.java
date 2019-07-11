@@ -17,5 +17,10 @@ public class ProdottoVo {
 	public void setDescrizione(String descrizione) {
 		this.descrizione = descrizione;
 	}
+	public ProdottoVo() {
+		super();
+		this.id = id;
+		this.descrizione = descrizione;
+	}
 	
 }

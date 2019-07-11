@@ -1,14 +1,13 @@
-package it.golden_tour.entities;
+package it.golden_tour.dto;
 
-public class UtenteVo {
-
+public class UtenteDto {
+	
 	private Long id;
 	private Long tipologia;
 	private String nome;
 	private String cognome;
 	private String username;
 	private String password;
-	
 	public Long getId() {
 		return id;
 	}
@@ -45,5 +44,4 @@ public class UtenteVo {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	
 }

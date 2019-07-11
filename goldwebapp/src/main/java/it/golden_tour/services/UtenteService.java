@@ -1,5 +1,12 @@
 package it.golden_tour.services;
 
-public class UtenteService {
+import it.golden_tour.dto.UtenteDto;
+import it.golden_tour.entities.UtenteVo;
+
+public interface UtenteService {
+	
+	void saveUser(UtenteVo utente) throws Exception;
+	UtenteDto login(String username, String password) throws Exception;
+
 
 }

@@ -1,7 +1,7 @@
-package it.golden_tour.entities;
+package it.golden_tour.dto;
 
-public class PrenotazioneVo {
-	
+public class PrenotazioneDto {
+
 	private String id;
 	private Long idPacchetto;
 	private Long idViaggio;
@@ -38,6 +38,4 @@ public class PrenotazioneVo {
 	public void setCostoTotale(float costoTotale) {
 		this.costoTotale = costoTotale;
 	}
-	
-
 }
