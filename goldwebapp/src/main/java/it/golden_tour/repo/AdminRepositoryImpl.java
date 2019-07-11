@@ -55,7 +55,7 @@ public class AdminRepositoryImpl implements AdminRepository {
 		}
 
 		@Override
-		public List<UtenteVo> listaClienti(Long id) throws Exception{
+		public List<UtenteVo> listaClienti() throws Exception{
 			
 			List<UtenteVo> lista = new ArrayList<UtenteVo>();
 			Connection connection = null;

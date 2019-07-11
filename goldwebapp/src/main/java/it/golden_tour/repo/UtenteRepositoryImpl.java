@@ -6,10 +6,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import it.golden_tour.entities.UtenteVo;
 import it.golden_tour.services.JDBCService;
 
+@Repository(value="utenteRepository")
 public class UtenteRepositoryImpl implements UtenteRepository{
 	
 		@Autowired
@@ -19,16 +21,14 @@ public class UtenteRepositoryImpl implements UtenteRepository{
 		public void newUser(UtenteVo utente) throws Exception {
 			
 			Connection connection = null;
-			String query = "insert into sys.utente (ID_UTENTE, ID_TIPOLOGIA, NOME_UTENTE, COGNOME_UTENTE, USERNAME, PASSWORD) VALUES ?, ?, ?, ?, ?, ? ";
+			String query = "insert into sys.utente (ID_UTENTE, ID_TIPOLOGIA, NOME_UTENTE, COGNOME_UTENTE, USERNAME, PASSWORD) VALUES (?, ?, ?, ?, ?, ?) ";
 			
 			try {
 				
 				connection = databaseService.getDatabaseConnection();
 				connection.setAutoCommit(false);
 				
-				PreparedStatement ps = connection.prepareStatement(query);
-				
-				ps.executeUpdate();
+				PreparedStatement ps = connection.prepareStatement(query);				
 				
 				ps.setLong(1, utente.getId());
 				ps.setLong(2, utente.getTipologia());
@@ -36,6 +36,8 @@ public class UtenteRepositoryImpl implements UtenteRepository{
 				ps.setString(4, utente.getCognome());
 				ps.setString(5, utente.getUsername());
 				ps.setString(6, utente.getPassword());
+				
+				ps.executeUpdate();
 				connection.commit();
 				
 			} catch (SQLException e) {
@@ -61,19 +63,19 @@ public class UtenteRepositoryImpl implements UtenteRepository{
 				
 				PreparedStatement ps = connection.prepareStatement(query);
 				
-				ps.executeQuery();
+				
 				ps.setString(1, username);
-				ps.setString(1, password);
+				ps.setString(2, password);
 				
 				ResultSet rs = ps.executeQuery();
 				
-				while(rs.next()) {
-					rs.getLong("id_utente");
-					rs.getLong("id_tipologia");
-					rs.getString("nome_utente");
-					rs.getString("cognome_utente");
-					rs.getString("username_utente");
-					rs.getString("password_utente");
+				if(rs.next()) {
+					user.setId(rs.getLong("id_utente"));
+					user.setTipologia(rs.getLong("id_tipologia"));
+					user.setNome(rs.getString("nome_utente"));
+					user.setCognome(rs.getString("cognome_utente"));
+					user.setUsername(rs.getString("username_utente"));
+					user.setPassword(rs.getString("password_utente"));
 				}
 				
 				

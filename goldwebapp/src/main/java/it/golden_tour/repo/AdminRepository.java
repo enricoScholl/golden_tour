@@ -9,7 +9,7 @@ public interface AdminRepository {
 	
 	boolean isAdmin(Long id) throws Exception;
 	
-	List<UtenteVo> listaClienti(Long id) throws Exception;
+	List<UtenteVo> listaClienti() throws Exception;
 	
 	void updateCliente(UtenteVo cliente) throws Exception;
 	
