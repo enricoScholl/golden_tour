@@ -4,14 +4,13 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import it.golden_tour.entities.PrenotazioneVo;
+import it.golden_tour.dto.PrenotazioneDto;
 import it.golden_tour.protocol.ResponseMessage;
 import it.golden_tour.services.PrenotazioneService;
 
@@ -25,7 +24,7 @@ public class PrenotazioneController {
 	@RequestMapping(value = "/all/{id}", method = RequestMethod.GET)
 	public ResponseEntity<ResponseMessage> getAllPrenotazioniById(@PathVariable("id") long id){
 		
-		List<PrenotazioneVo> listaPrenotazioni;
+		List<PrenotazioneDto> listaPrenotazioni;
 		ResponseMessage rm = new ResponseMessage();
 		try {
 			listaPrenotazioni = prenotazioneService.getAllPrenotazioniFromId(id);

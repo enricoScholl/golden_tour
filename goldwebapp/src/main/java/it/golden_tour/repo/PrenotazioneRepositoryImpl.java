@@ -130,7 +130,6 @@ public class PrenotazioneRepositoryImpl implements PrenotazioneRepository{
 			
 			PreparedStatement ps = connection.prepareStatement(query);
 			
-			
 			ps.setLong(1, id);
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()) {
