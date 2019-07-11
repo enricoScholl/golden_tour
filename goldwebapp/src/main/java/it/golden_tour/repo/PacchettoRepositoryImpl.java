@@ -85,8 +85,8 @@ public class PacchettoRepositoryImpl implements PacchettoRepository{
 		public void updatePacchetto(PacchettoVo pacchetto) throws Exception {
 			
 			Connection connection = null;
-			String query = " UPDATE sys.PACCHETTO SET ID_PACCHETTO = ?, ID_PRODOTTO_PACCHETTO = ?, DESTINAZIONE = ?, PREZZO_PACCHETTO = ? \"\r\n" + 
-					"				+ \"WHERE ID_PACHETTO = ?";
+			String query = " UPDATE sys.PACCHETTO SET ID_PACCHETTO = ?, ID_PRODOTTO_PACCHETTO = ?, DESTINAZIONE = ?, PREZZO_PACCHETTO = ? " + 
+									"WHERE ID_PACHETTO = ?";
 			
 			try {
 				
