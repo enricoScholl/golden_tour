@@ -6,7 +6,6 @@ import org.springframework.stereotype.Service;
 import it.golden_tour.dto.UtenteDto;
 import it.golden_tour.entities.UtenteVo;
 import it.golden_tour.repo.UtenteRepository;
-import it.golden_tour.utils.UtenteUtils;
 
 @Service("utenteService")
 public class UtenteServiceImpl implements UtenteService {
@@ -20,10 +19,10 @@ public class UtenteServiceImpl implements UtenteService {
     }
 	
 	@Override
-    public UtenteDto login(String username, String password) throws Exception {
+    public UtenteVo login(String username, String password) throws Exception {
 		
-		UtenteVo vo = utenteRepository.login(username, password);
-		return vo != null ? UtenteUtils.fromVoToDto(vo) : null;
+		return utenteRepository.login(username, password);
+		
        
     }
 
