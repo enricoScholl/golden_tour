@@ -142,7 +142,6 @@ public class PacchettoRepositoryImpl implements PacchettoRepository{
 				
 			} catch (Exception e) {
 				
-				
 				e.printStackTrace();
 				throw new Exception("Errore durante la richiesta della lista dei pacchetti.");
 				
